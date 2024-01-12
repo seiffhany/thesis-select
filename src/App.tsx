@@ -14,6 +14,7 @@ import type { FilterConfirmProps } from "antd/es/table/interface";
 import "./App.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Analytics } from "@vercel/analytics/react";
+import { useResponsive } from "./hooks/useResponsive";
 
 const App: FC = () => {
   interface DataType {
@@ -24,6 +25,8 @@ const App: FC = () => {
     action: string;
   }
   type DataIndex = keyof DataType;
+
+  const { isMobile } = useResponsive();
 
   const uniqueNames = Array.from(
     new Set(thesis.map((item) => item.content.split(" - ")[0]))
@@ -291,8 +294,39 @@ const App: FC = () => {
                 // pageSizeOptions: ["10", "20", "30"], // Optional: provide a dropdown for different page sizes
               }}
             />
-            <h1>My List</h1>
-            <div style={{ width: "100%" }}>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: "2rem",
+                marginTop: "2.5rem",
+              }}
+            >
+              <div
+                style={{ flexGrow: 1, height: "1px", backgroundColor: "black" }}
+              />
+              <h1
+                style={{
+                  textAlign: "center",
+                  lineHeight: 1,
+                  margin: 0,
+                  // fontSize: "3rem",
+                }}
+              >
+                My Thesis List
+              </h1>
+              <div
+                style={{ flexGrow: 1, height: "1px", backgroundColor: "black" }}
+              />
+            </div>
+            <div
+              style={{
+                width: "100%",
+                ...(!isMobile && { paddingInline: "9rem" }),
+              }}
+            >
               <DragDropContext
                 onDragEnd={(result) => {
                   if (!result.destination) return;
@@ -326,14 +360,42 @@ const App: FC = () => {
                                 {...provided.dragHandleProps}
                                 style={{
                                   userSelect: "none",
+                                  position: "relative",
                                   ...provided.draggableProps.style,
                                 }}
                               >
-                                <p>{index + 1}</p>
+                                <p
+                                  style={{
+                                    position: "absolute",
+                                    fontSize: isMobile ? "2rem" : "3.5rem",
+                                    lineHeight: 1,
+                                    top: isMobile ? "0rem" : "-1rem",
+                                    left: isMobile ? "-1rem" : "-1rem",
+                                    fontWeight: "bold",
+                                    fontStyle: "italic",
+                                    transform: "translateX(-100%)",
+                                    opacity: 0.2,
+                                  }}
+                                >
+                                  {index + 1}
+                                </p>
                                 <HolderOutlined />
                                 <div>
-                                  <p>{item.supervisor}</p>
-                                  <p>{item.topic}</p>
+                                  <p
+                                    style={{
+                                      fontSize: "1.25rem",
+                                      fontWeight: "bold",
+                                    }}
+                                  >
+                                    {item.topic}
+                                  </p>
+                                  <p
+                                    style={{
+                                      opacity: 0.5,
+                                    }}
+                                  >
+                                    Supervised by: {item.supervisor}
+                                  </p>
                                 </div>
                                 <DeleteOutlined
                                   onClick={() => {
