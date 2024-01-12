@@ -185,13 +185,7 @@ const App: FC = () => {
         <a
           onClick={() => {
             // only add if it's not already in the list
-            if (
-              !myList.find(
-                (item: any) =>
-                  item.supervisor + item.topic ===
-                  record.supervisor + record.topic
-              )
-            ) {
+            if (!myList.find((item: any) => item.id === record.id)) {
               setMyList([...myList, record]);
             }
           }}
@@ -206,34 +200,21 @@ const App: FC = () => {
     localStorage.setItem("items", JSON.stringify(myList));
   }, [myList]);
 
-  const data = thesis
-    .filter(
-      (item) =>
-        !myList.find((i: any) => {
-          const currentTopic = item.content.split(" - ");
-          const supervisor = currentTopic[0];
-          const topicName =
-            currentTopic.length > 2
-              ? currentTopic.slice(1).join(" - ")
-              : currentTopic[1];
-          return i.supervisor + i.topic === supervisor + topicName;
-        })
-    )
-    .map((item, idx) => {
-      const currentTopic = item.content.split(" - ");
-      const supervisor = currentTopic[0];
-      const topicName =
-        currentTopic.length > 2
-          ? currentTopic.slice(1).join(" - ")
-          : currentTopic[1];
-      return {
-        key: idx,
-        id: `topic-${idx + 1}`,
-        supervisor: supervisor,
-        topic: topicName,
-        action: "Add to list",
-      };
-    });
+  const data = thesis.map((item, idx) => {
+    const currentTopic = item.content.split(" - ");
+    const supervisor = currentTopic[0];
+    const topicName =
+      currentTopic.length > 2
+        ? currentTopic.slice(1).join(" - ")
+        : currentTopic[1];
+    return {
+      key: idx,
+      id: `topic-${idx + 1}`,
+      supervisor: supervisor,
+      topic: topicName,
+      action: "Add to list",
+    };
+  });
 
   const onChange: TableProps<DataType>["onChange"] = (
     // @ts-ignore
@@ -311,7 +292,7 @@ const App: FC = () => {
                     {myList.map((item: any, index: any) => {
                       return (
                         <Draggable
-                          key={item.supervisor + item.topic}
+                          key={item.id}
                           draggableId={item.id}
                           index={index}
                         >
