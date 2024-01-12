@@ -250,8 +250,8 @@ const App: FC = () => {
       }}
     >
       <div
+        className="main-wrapper"
         style={{
-          maxWidth: "90%",
           alignSelf: "center",
           paddingTop: "5rem",
           paddingBottom: "10rem",

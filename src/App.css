@@ -28,3 +28,14 @@
   padding: 10px 0;
   border-bottom: 1px solid #ccc;
 }
+
+.main-wrapper {
+  width: 85rem;
+}
+
+/* add media query to reduce width on mobile */
+@media (max-width: 600px) {
+  .main-wrapper {
+    width: 90%;
+  }
+}
