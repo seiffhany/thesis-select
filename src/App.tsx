@@ -311,7 +311,7 @@ const App: FC = () => {
                     {myList.map((item: any, index: any) => {
                       return (
                         <Draggable
-                          key={item.id}
+                          key={item.supervisor + item.topic}
                           draggableId={item.id}
                           index={index}
                         >
