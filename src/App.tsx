@@ -185,7 +185,13 @@ const App: FC = () => {
         <a
           onClick={() => {
             // only add if it's not already in the list
-            if (!myList.find((item: any) => item.id === record.id)) {
+            if (
+              !myList.find(
+                (item: any) =>
+                  item.topic + item.supervisor ===
+                  record.topic + record.supervisor
+              )
+            ) {
               setMyList([...myList, record]);
             }
           }}
