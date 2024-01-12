@@ -13,6 +13,7 @@ import {
 import type { FilterConfirmProps } from "antd/es/table/interface";
 import "./App.css";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { Analytics } from "@vercel/analytics/react";
 
 const App: FC = () => {
   interface DataType {
@@ -250,114 +251,117 @@ const App: FC = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <>
       <div
-        className="main-wrapper"
         style={{
-          alignSelf: "center",
-          paddingTop: "5rem",
-          paddingBottom: "10rem",
           display: "flex",
+          alignItems: "center",
           justifyContent: "center",
         }}
       >
         <div
+          className="main-wrapper"
           style={{
             alignSelf: "center",
-            width: "100%",
-            height: "100%",
+            paddingTop: "5rem",
+            paddingBottom: "10rem",
             display: "flex",
-            flexDirection: "column",
             justifyContent: "center",
-            alignItems: "start",
-            gap: "2rem",
           }}
         >
-          <Table
-            style={{ width: "100%" }}
-            columns={columns}
-            dataSource={data}
-            onChange={onChange}
-            pagination={{
-              pageSize: 10, // Set the desired number of items per page
-              // pageSizeOptions: ["10", "20", "30"], // Optional: provide a dropdown for different page sizes
+          <div
+            style={{
+              alignSelf: "center",
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "start",
+              gap: "2rem",
             }}
-          />
-          <h1>My List</h1>
-          <div style={{ width: "100%" }}>
-            <DragDropContext
-              onDragEnd={(result) => {
-                if (!result.destination) return;
-                const items = Array.from(myList);
-                const [reorderedItem] = items.splice(result.source.index, 1);
-                items.splice(result.destination.index, 0, reorderedItem);
-                setMyList(items);
+          >
+            <Table
+              style={{ width: "100%" }}
+              columns={columns}
+              dataSource={data}
+              onChange={onChange}
+              pagination={{
+                pageSize: 10, // Set the desired number of items per page
+                // pageSizeOptions: ["10", "20", "30"], // Optional: provide a dropdown for different page sizes
               }}
-            >
-              <Droppable droppableId="topics">
-                {(provided: any) => (
-                  <ul
-                    className="list-items"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                  >
-                    {myList.map((item: any, index: any) => {
-                      return (
-                        <Draggable
-                          key={item.supervisor + item.topic}
-                          draggableId={item.supervisor + item.topic}
-                          index={index}
-                        >
-                          {(provided: any) => (
-                            <li
-                              // initial={{ opacity: 0, y: 20 }}
-                              // animate={{ opacity: 1, y: 0 }}
-                              // transition={{ duration: 0.5, delay: index * 0.1 }}
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={{
-                                userSelect: "none",
-                                ...provided.draggableProps.style,
-                              }}
-                            >
-                              <p>{index + 1}</p>
-                              <HolderOutlined />
-                              <div>
-                                <p>{item.supervisor}</p>
-                                <p>{item.topic}</p>
-                              </div>
-                              <DeleteOutlined
-                                onClick={() => {
-                                  const newList = myList.filter(
-                                    (i: any) =>
-                                      i.topic + i.supervisor !==
-                                      item.topic + item.supervisor
-                                  );
-                                  setMyList(newList);
+            />
+            <h1>My List</h1>
+            <div style={{ width: "100%" }}>
+              <DragDropContext
+                onDragEnd={(result) => {
+                  if (!result.destination) return;
+                  const items = Array.from(myList);
+                  const [reorderedItem] = items.splice(result.source.index, 1);
+                  items.splice(result.destination.index, 0, reorderedItem);
+                  setMyList(items);
+                }}
+              >
+                <Droppable droppableId="topics">
+                  {(provided: any) => (
+                    <ul
+                      className="list-items"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {myList.map((item: any, index: any) => {
+                        return (
+                          <Draggable
+                            key={item.supervisor + item.topic}
+                            draggableId={item.supervisor + item.topic}
+                            index={index}
+                          >
+                            {(provided: any) => (
+                              <li
+                                // initial={{ opacity: 0, y: 20 }}
+                                // animate={{ opacity: 1, y: 0 }}
+                                // transition={{ duration: 0.5, delay: index * 0.1 }}
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                  userSelect: "none",
+                                  ...provided.draggableProps.style,
                                 }}
-                                style={{ color: "red" }}
-                              />
-                            </li>
-                          )}
-                        </Draggable>
-                      );
-                    })}
-                    {provided.placeholder}
-                  </ul>
-                )}
-              </Droppable>
-            </DragDropContext>
+                              >
+                                <p>{index + 1}</p>
+                                <HolderOutlined />
+                                <div>
+                                  <p>{item.supervisor}</p>
+                                  <p>{item.topic}</p>
+                                </div>
+                                <DeleteOutlined
+                                  onClick={() => {
+                                    const newList = myList.filter(
+                                      (i: any) =>
+                                        i.topic + i.supervisor !==
+                                        item.topic + item.supervisor
+                                    );
+                                    setMyList(newList);
+                                  }}
+                                  style={{ color: "red" }}
+                                />
+                              </li>
+                            )}
+                          </Draggable>
+                        );
+                      })}
+                      {provided.placeholder}
+                    </ul>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Analytics />
+    </>
   );
 };
 
