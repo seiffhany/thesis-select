@@ -185,7 +185,13 @@ const App: FC = () => {
         <a
           onClick={() => {
             // only add if it's not already in the list
-            if (!myList.find((item: any) => item.id === record.id)) {
+            if (
+              !myList.find(
+                (item: any) =>
+                  item.topic + item.supervisor ===
+                  record.topic + record.supervisor
+              )
+            ) {
               setMyList([...myList, record]);
             }
           }}
@@ -292,8 +298,8 @@ const App: FC = () => {
                     {myList.map((item: any, index: any) => {
                       return (
                         <Draggable
-                          key={item.id}
-                          draggableId={item.id}
+                          key={item.supervisor + item.topic}
+                          draggableId={item.supervisor + item.topic}
                           index={index}
                         >
                           {(provided: any) => (
@@ -318,7 +324,9 @@ const App: FC = () => {
                               <DeleteOutlined
                                 onClick={() => {
                                   const newList = myList.filter(
-                                    (i: any) => i.id !== item.id
+                                    (i: any) =>
+                                      i.topic + i.supervisor !==
+                                      item.topic + item.supervisor
                                   );
                                   setMyList(newList);
                                 }}
