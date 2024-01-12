@@ -244,88 +244,96 @@ const App: FC = () => {
   return (
     <div
       style={{
-        width: "100%",
-        paddingInline: "10rem",
-        paddingTop: "5rem",
-        paddingBottom: "10rem",
         display: "flex",
+        alignItems: "center",
         justifyContent: "center",
       }}
     >
-      <div style={tableStyle}>
-        <Table
-          style={{ width: "100%" }}
-          columns={columns}
-          dataSource={data}
-          onChange={onChange}
-          pagination={{
-            pageSize: 10, // Set the desired number of items per page
-            // pageSizeOptions: ["10", "20", "30"], // Optional: provide a dropdown for different page sizes
-          }}
-        />
-        <h1>My List</h1>
-        <div style={{ width: "100%" }}>
-          <DragDropContext
-            onDragEnd={(result) => {
-              if (!result.destination) return;
-              const items = Array.from(myList);
-              const [reorderedItem] = items.splice(result.source.index, 1);
-              items.splice(result.destination.index, 0, reorderedItem);
-              setMyList(items);
+      <div
+        style={{
+          maxWidth: "90%",
+          alignSelf: "center",
+          paddingTop: "5rem",
+          paddingBottom: "10rem",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <div style={tableStyle}>
+          <Table
+            style={{ width: "100%" }}
+            columns={columns}
+            dataSource={data}
+            onChange={onChange}
+            pagination={{
+              pageSize: 10, // Set the desired number of items per page
+              // pageSizeOptions: ["10", "20", "30"], // Optional: provide a dropdown for different page sizes
             }}
-          >
-            <Droppable droppableId="topics">
-              {(provided: any) => (
-                <ul
-                  className="list-items"
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {myList.map((item: any, index: any) => {
-                    return (
-                      <Draggable
-                        key={item.id}
-                        draggableId={item.id}
-                        index={index}
-                      >
-                        {(provided: any) => (
-                          <li
-                            // initial={{ opacity: 0, y: 20 }}
-                            // animate={{ opacity: 1, y: 0 }}
-                            // transition={{ duration: 0.5, delay: index * 0.1 }}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={{
-                              userSelect: "none",
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            <p>{index + 1}</p>
-                            <HolderOutlined />
-                            <div>
-                              <p>{item.supervisor}</p>
-                              <p>{item.topic}</p>
-                            </div>
-                            <DeleteOutlined
-                              onClick={() => {
-                                const newList = myList.filter(
-                                  (i: any) => i.id !== item.id
-                                );
-                                setMyList(newList);
+          />
+          <h1>My List</h1>
+          <div style={{ width: "100%" }}>
+            <DragDropContext
+              onDragEnd={(result) => {
+                if (!result.destination) return;
+                const items = Array.from(myList);
+                const [reorderedItem] = items.splice(result.source.index, 1);
+                items.splice(result.destination.index, 0, reorderedItem);
+                setMyList(items);
+              }}
+            >
+              <Droppable droppableId="topics">
+                {(provided: any) => (
+                  <ul
+                    className="list-items"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {myList.map((item: any, index: any) => {
+                      return (
+                        <Draggable
+                          key={item.id}
+                          draggableId={item.id}
+                          index={index}
+                        >
+                          {(provided: any) => (
+                            <li
+                              // initial={{ opacity: 0, y: 20 }}
+                              // animate={{ opacity: 1, y: 0 }}
+                              // transition={{ duration: 0.5, delay: index * 0.1 }}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={{
+                                userSelect: "none",
+                                ...provided.draggableProps.style,
                               }}
-                              style={{ color: "red" }}
-                            />
-                          </li>
-                        )}
-                      </Draggable>
-                    );
-                  })}
-                  {provided.placeholder}
-                </ul>
-              )}
-            </Droppable>
-          </DragDropContext>
+                            >
+                              <p>{index + 1}</p>
+                              <HolderOutlined />
+                              <div>
+                                <p>{item.supervisor}</p>
+                                <p>{item.topic}</p>
+                              </div>
+                              <DeleteOutlined
+                                onClick={() => {
+                                  const newList = myList.filter(
+                                    (i: any) => i.id !== item.id
+                                  );
+                                  setMyList(newList);
+                                }}
+                                style={{ color: "red" }}
+                              />
+                            </li>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </ul>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </div>
         </div>
       </div>
     </div>
