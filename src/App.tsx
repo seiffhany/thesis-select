@@ -12,7 +12,6 @@ import {
 } from "@ant-design/icons";
 import type { FilterConfirmProps } from "antd/es/table/interface";
 import "./App.css";
-import { motion } from "framer-motion";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const App: FC = () => {
@@ -150,9 +149,9 @@ const App: FC = () => {
       dataIndex: "id",
       key: "id",
       width: "10%",
-      sorter: (a, b) => a.id - b.id,
+      sorter: (a: any, b: any) => a.id - b.id,
       sortDirections: ["descend", "ascend"],
-      render: (value, record, index) => index + 1,
+      render: (_, __, index) => index + 1,
     },
     {
       title: "Supervisor",
@@ -164,7 +163,7 @@ const App: FC = () => {
       width: "25%",
       filterSearch: true,
       filteredValue: supervisorFilter ? [supervisorFilter] : null,
-      onFilter: (value, record) => record.supervisor.indexOf(value) === 0,
+      onFilter: (value: any, record) => record.supervisor.indexOf(value) === 0,
       sortDirections: ["descend", "ascend"],
       // ...getColumnSearchProps("supervisor"),
     },
@@ -182,7 +181,7 @@ const App: FC = () => {
       dataIndex: "action",
       key: "action",
       width: "15%",
-      render: (value, record) => (
+      render: (_, record) => (
         <a
           onClick={() => {
             // only add if it's not already in the list
@@ -218,27 +217,18 @@ const App: FC = () => {
   });
 
   const onChange: TableProps<DataType>["onChange"] = (
+    // @ts-ignore
     pagination,
-    filters,
+    filters: any,
+    // @ts-ignore
     sorter,
+    // @ts-ignore
     extra
   ) => {
     setSupervisorFilter(
       filters.supervisor?.length ? filters.supervisor[0] : null
     );
     setTopicFilter(filters.topic?.length ? filters.topic[0] : null);
-  };
-
-  const tableStyle = {
-    // backgroundColor: "yellow",
-    alignSelf: "center",
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "start",
-    gap: "2rem",
   };
 
   return (
@@ -259,7 +249,18 @@ const App: FC = () => {
           justifyContent: "center",
         }}
       >
-        <div style={tableStyle}>
+        <div
+          style={{
+            alignSelf: "center",
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "start",
+            gap: "2rem",
+          }}
+        >
           <Table
             style={{ width: "100%" }}
             columns={columns}
