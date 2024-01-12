@@ -148,10 +148,11 @@ const App: FC = () => {
       title: "#",
       dataIndex: "id",
       key: "id",
-      width: "10%",
-      sorter: (a: any, b: any) => a.id - b.id,
+      width: "5%",
+      sorter: (a: any, b: any) =>
+        Number(a.id.split("-")[1]) - Number(b.id.split("-")[1]),
       sortDirections: ["descend", "ascend"],
-      render: (_, __, index) => index + 1,
+      render: (_, record) => record.id.split("-")[1],
     },
     {
       title: "Supervisor",
