@@ -31,7 +31,7 @@ const App: FC = () => {
   const storedItems = JSON.parse(localStorage.getItem("items") ?? "[]");
   const [myList, setMyList] = useState<any>(storedItems);
 
-  const [supervisorFilter, setSupervisorFilter] = useState<any | null>(null);
+  const [supervisorFilter, setSupervisorFilter] = useState<string | null>(null);
   const [topicFilter, setTopicFilter] = useState<string | null>(null);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -162,7 +162,7 @@ const App: FC = () => {
       filterMode: "tree",
       width: "25%",
       filterSearch: true,
-      filteredValue: supervisorFilter ? [...supervisorFilter] : null,
+      filteredValue: supervisorFilter ? [supervisorFilter] : null,
       onFilter: (value: any, record) => record.supervisor.indexOf(value) === 0,
       sortDirections: ["descend", "ascend"],
       // ...getColumnSearchProps("supervisor"),
@@ -185,13 +185,7 @@ const App: FC = () => {
         <a
           onClick={() => {
             // only add if it's not already in the list
-            if (
-              !myList.find(
-                (item: any) =>
-                  item.topic + item.supervisor ===
-                  record.topic + record.supervisor
-              )
-            ) {
+            if (!myList.find((item: any) => item.id === record.id)) {
               setMyList([...myList, record]);
             }
           }}
@@ -231,9 +225,9 @@ const App: FC = () => {
     // @ts-ignore
     extra
   ) => {
-    console.log("filters.supervisor");
-    console.log(filters.supervisor);
-    setSupervisorFilter(filters.supervisor?.length ? filters.supervisor : null);
+    setSupervisorFilter(
+      filters.supervisor?.length ? filters.supervisor[0] : null
+    );
     setTopicFilter(filters.topic?.length ? filters.topic[0] : null);
   };
 
