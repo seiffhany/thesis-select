@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import { InputRef, Table } from "antd";
+import { InputRef, Table, notification } from "antd";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { thesis } from "./thesis";
 import Highlighter from "react-highlight-words";
@@ -148,6 +148,105 @@ const App: FC = () => {
       ),
   });
 
+  const getDescriptionLink = (supervisor: string) => {
+    const data = [
+      {
+        supervisor: "Ahmed Mohammed Hassan Abdelfattah",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_03_38.pdf",
+      },
+      {
+        supervisor: "Catherine Malak Noshy Ibrahim Elias",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_04_08.pdf",
+      },
+      {
+        supervisor: "Ahmed Abd El-Hamid Mohamed Shafik Maarouf",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_06_28.pdf",
+      },
+      {
+        supervisor: "Haitham Abdelsalam Ahmed Omran",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_07_16.pdf",
+      },
+      {
+        supervisor: "Amr Abdallah Abou Shousha",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_07_42.pdf",
+      },
+      {
+        supervisor: "Anke . Klingner",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_08_18.pdf",
+      },
+      {
+        supervisor: "Haytham Osman Ismail",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_08_45.pdf",
+      },
+      {
+        supervisor: "Hisham Hassaballah Othman",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_09_36.pdf",
+      },
+      {
+        supervisor: "Mervat Mustafa Fahmy Abuelkheir",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_10_06.pdf",
+      },
+      {
+        supervisor: "Milad Michel Ghantous",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_10_26.pdf",
+      },
+      {
+        supervisor: "Mohamed Hamed Fahmy",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_10_46.pdf",
+      },
+      {
+        supervisor: "Mohammed Abdel Megeed Salem",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_11_03.pdf",
+      },
+      {
+        supervisor: "Mohamed Kamel Gabr",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_11_21.pdf",
+      },
+      {
+        supervisor: "Nourhan Ehab Azab",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_11_42.pdf",
+      },
+      {
+        supervisor: "Rimon . Elias",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_12_00.pdf",
+      },
+      {
+        supervisor: "Shereen Moataz Mahmoud Mohamed Afifi",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_12_22.pdf",
+      },
+      {
+        supervisor: "Wael  Mohamed AbulSadat",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_12_40.pdf",
+      },
+      {
+        supervisor: "Maggie Ahmed Ezzat Mashaly",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_13_02.pdf",
+      },
+      {
+        supervisor: "Mohamed Abdel Ghany Ahmed Salem",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_13_21.pdf",
+      },
+      {
+        supervisor: "Wassim Joseph  Alexan",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_13_43.pdf",
+      },
+      {
+        supervisor: "Hossam Eldin Hassan Abdelmunim",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_14_02.pdf",
+      },
+      {
+        supervisor: "Wael Zakaria Abdallah",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_14_38.pdf",
+      },
+      {
+        supervisor: "Eman Ahmed Hamdy Azab",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T17_42_02.pdf",
+      },
+    ];
+    const item = data.find((item) => item.supervisor === supervisor);
+    return item?.link;
+  };
+
   const columns: ColumnsType<DataType> = [
     {
       title: "#",
@@ -183,10 +282,10 @@ const App: FC = () => {
       ...getColumnSearchProps("topic"),
     },
     {
-      title: "Action",
-      dataIndex: "action",
-      key: "action",
-      width: "15%",
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      width: "8%",
       render: (_, record) => (
         <a
           onClick={() => {
@@ -202,9 +301,25 @@ const App: FC = () => {
             }
           }}
         >
-          Add to list
+          Add To List
         </a>
       ),
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      key: "action",
+      width: "12%",
+      render: (_, record) => {
+        const item = getDescriptionLink(record.supervisor);
+        return item ? (
+          <a href={`${item}`} target="_blank">
+            View Description
+          </a>
+        ) : (
+          <p style={{ color: "red", opacity: "0.5" }}>No Description</p>
+        );
+      },
     },
   ];
 
@@ -363,6 +478,7 @@ const App: FC = () => {
                       ref={provided.innerRef}
                     >
                       {myList.map((item: any, index: any) => {
+                        const link = getDescriptionLink(item.supervisor);
                         return (
                           <Draggable
                             key={item.supervisor + item.topic}
@@ -425,17 +541,45 @@ const App: FC = () => {
                                     </p>
                                   </div>
                                 </div>
-                                <DeleteOutlined
-                                  onClick={() => {
-                                    const newList = myList.filter(
-                                      (i: any) =>
-                                        i.topic + i.supervisor !==
-                                        item.topic + item.supervisor
-                                    );
-                                    setMyList(newList);
+                                <div
+                                  style={{
+                                    // width: "fit-content",
+                                    maxWidth: "15rem",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    gap: "1rem",
+                                    alignItems: "center",
+                                    justifyContent: "end",
                                   }}
-                                  style={{ color: "red" }}
-                                />
+                                >
+                                  {link ? (
+                                    <a
+                                      href={`${link}`}
+                                      target="_blank"
+                                      style={{
+                                        color: "#1677FF",
+                                        textDecoration: "none",
+                                      }}
+                                    >
+                                      View Description
+                                    </a>
+                                  ) : (
+                                    <p style={{ color: "red", opacity: "0.5" }}>
+                                      No Description
+                                    </p>
+                                  )}
+                                  <DeleteOutlined
+                                    onClick={() => {
+                                      const newList = myList.filter(
+                                        (i: any) =>
+                                          i.topic + i.supervisor !==
+                                          item.topic + item.supervisor
+                                      );
+                                      setMyList(newList);
+                                    }}
+                                    style={{ color: "red" }}
+                                  />
+                                </div>
                               </li>
                             )}
                           </Draggable>

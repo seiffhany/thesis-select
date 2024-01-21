@@ -44,6 +44,10 @@ a:not([class]) {
   text-decoration-skip-ink: auto;
 }
 
+p {
+  margin: 0;
+}
+
 /* Make images easier to work with */
 img,
 picture {
