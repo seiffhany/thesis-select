@@ -5,6 +5,7 @@ import { thesis } from "./thesis";
 import Highlighter from "react-highlight-words";
 import { Button, Input, Space } from "antd";
 import type { ColumnType } from "antd/es/table";
+import { GithubOutlined } from "@ant-design/icons";
 import {
   SearchOutlined,
   HolderOutlined,
@@ -284,6 +285,24 @@ const App: FC = () => {
               gap: "2rem",
             }}
           >
+            <a
+              href="https://github.com/seiffhany"
+              target="_blank"
+              style={{
+                textDecoration: "none",
+                color: "black",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "1rem",
+                opacity: 0.3,
+                cursor: "pointer",
+              }}
+            >
+              <GithubOutlined style={{ fontSize: "1.5rem" }} />
+              <p style={{ margin: 0 }}>Made by Seif Hany</p>
+            </a>
             <Table
               style={{ width: "100%" }}
               columns={columns}
@@ -389,13 +408,22 @@ const App: FC = () => {
                                   >
                                     {item.topic}
                                   </p>
-                                  <p
+                                  <div
                                     style={{
-                                      opacity: 0.5,
+                                      width: "100%",
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
                                     }}
                                   >
-                                    Supervised by: {item.supervisor}
-                                  </p>
+                                    <p
+                                      style={{
+                                        opacity: 0.5,
+                                      }}
+                                    >
+                                      Supervised by: {item.supervisor}
+                                    </p>
+                                  </div>
                                 </div>
                                 <DeleteOutlined
                                   onClick={() => {

@@ -18,7 +18,7 @@
   background-color: rgba(0, 0, 0, 0.03);
 }
 
-.list-items li div {
+.list-items li > div {
   width: 100%;
   min-height: 8rem;
   display: flex;
