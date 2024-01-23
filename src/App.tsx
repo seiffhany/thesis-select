@@ -54,9 +54,10 @@ const App: FC = () => {
     return filtered;
   };
 
+  const filteredItems = getFilteredItems();
+
   const countSupervisor = (supervisor: string) => {
-    const filtered = getFilteredItems();
-    const count = filtered.filter((item) =>
+    const count = filteredItems.filter((item) =>
       item.content.includes(supervisor)
     ).length;
     return count;
@@ -64,7 +65,7 @@ const App: FC = () => {
 
   const uniqueNames = Array.from(
     new Set(
-      getFilteredItems().map((item) => {
+      filteredItems.map((item) => {
         const supervisor = item.content.split(" - ")[0];
         return `(${countSupervisor(supervisor)}) ` + supervisor;
       })
@@ -297,7 +298,9 @@ const App: FC = () => {
       width: "25%",
       filterSearch: true,
       filteredValue: supervisorFilter ? [...supervisorFilter] : null,
-      onFilter: (value: any, record) => record.supervisor.indexOf(value) === 0,
+      onFilter: (value: any, record) => {
+        return record.supervisor.indexOf(value.split(") ")[1]) === 0;
+      },
       sortDirections: ["descend", "ascend"],
       // ...getColumnSearchProps("supervisor"),
     },
@@ -356,7 +359,7 @@ const App: FC = () => {
     localStorage.setItem("items", JSON.stringify(myList));
   }, [myList]);
 
-  const data = getFilteredItems().map((item, idx) => {
+  const data = filteredItems.map((item, idx) => {
     const currentTopic = item.content.split(" - ");
     const supervisor = currentTopic[0];
     const topicName =
