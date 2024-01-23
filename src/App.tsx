@@ -54,8 +54,21 @@ const App: FC = () => {
     return filtered;
   };
 
+  const countSupervisor = (supervisor: string) => {
+    const filtered = getFilteredItems();
+    const count = filtered.filter((item) =>
+      item.content.includes(supervisor)
+    ).length;
+    return count;
+  };
+
   const uniqueNames = Array.from(
-    new Set(getFilteredItems().map((item) => item.content.split(" - ")[0]))
+    new Set(
+      getFilteredItems().map((item) => {
+        const supervisor = item.content.split(" - ")[0];
+        return `(${countSupervisor(supervisor)}) ` + supervisor;
+      })
+    )
   );
 
   const handleSearch = (
