@@ -416,24 +416,32 @@ const App: FC = () => {
               gap: "2rem",
             }}
           >
-            <a
-              href="https://github.com/seiffhany"
-              target="_blank"
+            <div
               style={{
-                textDecoration: "none",
-                color: "black",
                 width: "100%",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                gap: "1rem",
-                opacity: 0.3,
-                cursor: "pointer",
               }}
             >
-              <GithubOutlined style={{ fontSize: "1.5rem" }} />
-              <p style={{ margin: 0 }}>Made by Seif Hany</p>
-            </a>
+              <a
+                href="https://github.com/seiffhany"
+                target="_blank"
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "1rem",
+                  opacity: 0.3,
+                  cursor: "pointer",
+                }}
+              >
+                <GithubOutlined style={{ fontSize: "1.5rem" }} />
+                <p style={{ margin: 0 }}>Made by Seif Hany</p>
+              </a>
+            </div>
             <Table
               style={{ width: "100%" }}
               columns={columns}
