@@ -504,7 +504,7 @@ const App: FC = () => {
                                     position: "absolute",
                                     fontSize: isMobile ? "2rem" : "3.5rem",
                                     lineHeight: 1,
-                                    top: isMobile ? "0rem" : "-1rem",
+                                    top: isMobile ? "0rem" : "1rem",
                                     left: isMobile ? "-1rem" : "-1rem",
                                     fontWeight: "bold",
                                     fontStyle: "italic",
