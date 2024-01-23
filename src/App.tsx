@@ -70,7 +70,13 @@ const App: FC = () => {
         return `(${countSupervisor(supervisor)}) ` + supervisor;
       })
     )
-  );
+  ).sort((a, b) => {
+    const countA = Number(a.split(") ")[0].replace("(", ""));
+    const countB = Number(b.split(") ")[0].replace("(", ""));
+    if (countA > countB) return -1;
+    if (countA < countB) return 1;
+    return 0;
+  });
 
   const handleSearch = (
     selectedKeys: string[],
@@ -298,9 +304,8 @@ const App: FC = () => {
       width: "25%",
       filterSearch: true,
       filteredValue: supervisorFilter ? [...supervisorFilter] : null,
-      onFilter: (value: any, record) => {
-        return record.supervisor.indexOf(value.split(") ")[1]) === 0;
-      },
+      onFilter: (value: any, record) =>
+        record.supervisor.indexOf(value.split(") ")[1]) === 0,
       sortDirections: ["descend", "ascend"],
       // ...getColumnSearchProps("supervisor"),
     },
