@@ -29,10 +29,6 @@ const App: FC = () => {
 
   const { isMobile } = useResponsive();
 
-  const uniqueNames = Array.from(
-    new Set(thesis.map((item) => item.content.split(" - ")[0]))
-  );
-
   const storedItems = JSON.parse(localStorage.getItem("items") ?? "[]");
   const [myList, setMyList] = useState<any>(storedItems);
 
@@ -41,6 +37,26 @@ const App: FC = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
+
+  const getFilteredItems = () => {
+    const filtered = thesis.filter(
+      (item) =>
+        !myList.find((i: any) => {
+          const currentTopic = item.content.split(" - ");
+          const supervisor = currentTopic[0];
+          const topicName =
+            currentTopic.length > 2
+              ? currentTopic.slice(1).join(" - ")
+              : currentTopic[1];
+          return i.topic + i.supervisor === topicName + supervisor;
+        })
+    );
+    return filtered;
+  };
+
+  const uniqueNames = Array.from(
+    new Set(getFilteredItems().map((item) => item.content.split(" - ")[0]))
+  );
 
   const handleSearch = (
     selectedKeys: string[],
@@ -327,34 +343,21 @@ const App: FC = () => {
     localStorage.setItem("items", JSON.stringify(myList));
   }, [myList]);
 
-  const data = thesis
-    .filter(
-      (item) =>
-        !myList.find((i: any) => {
-          const currentTopic = item.content.split(" - ");
-          const supervisor = currentTopic[0];
-          const topicName =
-            currentTopic.length > 2
-              ? currentTopic.slice(1).join(" - ")
-              : currentTopic[1];
-          return i.topic + i.supervisor === topicName + supervisor;
-        })
-    )
-    .map((item, idx) => {
-      const currentTopic = item.content.split(" - ");
-      const supervisor = currentTopic[0];
-      const topicName =
-        currentTopic.length > 2
-          ? currentTopic.slice(1).join(" - ")
-          : currentTopic[1];
-      return {
-        key: idx,
-        id: `topic-${idx + 1}`,
-        supervisor: supervisor,
-        topic: topicName,
-        action: "Add to list",
-      };
-    });
+  const data = getFilteredItems().map((item, idx) => {
+    const currentTopic = item.content.split(" - ");
+    const supervisor = currentTopic[0];
+    const topicName =
+      currentTopic.length > 2
+        ? currentTopic.slice(1).join(" - ")
+        : currentTopic[1];
+    return {
+      key: idx,
+      id: `topic-${idx + 1}`,
+      supervisor: supervisor,
+      topic: topicName,
+      action: "Add to list",
+    };
+  });
 
   const onChange: TableProps<DataType>["onChange"] = (
     // @ts-ignore
