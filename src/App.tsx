@@ -300,6 +300,7 @@ const App: FC = () => {
         supervisor: "Milad Michel Ghantous",
         link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_10_26.pdf",
       },
+      // WTF
       {
         supervisor: "Mohamed Hamed Fahmy",
         link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_10_46.pdf",
@@ -351,6 +352,18 @@ const App: FC = () => {
       {
         supervisor: "Eman Ahmed Hamdy Azab",
         link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T17_42_02.pdf",
+      },
+      {
+        supervisor: "Slim . Abdennadher",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-23T10_36_17.pdf",
+      },
+      {
+        supervisor: "Gamal Abdel Shafy",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-24T14_48_13.pdf",
+      },
+      {
+        supervisor: "Wagdy Anis Aziz",
+        link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-24T15_11_56.pdf",
       },
     ];
     const item = data.find((item) => item.supervisor === supervisor);
