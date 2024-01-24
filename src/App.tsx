@@ -540,6 +540,16 @@ const App: FC = () => {
                   position: "relative",
                 }}
               >
+                <p
+                  style={{
+                    position: "absolute",
+                    right: "-1rem",
+                    top: "50%",
+                    transform: "translate(100%, -50%)",
+                  }}
+                >
+                  Total: {currData.length}
+                </p>
                 {/* <p
                   style={{
                     position: "absolute",
