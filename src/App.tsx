@@ -438,6 +438,21 @@ const App: FC = () => {
     localStorage.setItem("items", JSON.stringify(myList));
   }, [myList]);
 
+  useEffect(() => {
+    console.log("isMobile");
+    console.log(isMobile);
+    if (isMobile) {
+      notification.info({
+        message: "Please note this app is better opened on desktop",
+        placement: "topLeft",
+        duration: 0,
+      });
+    }
+    return () => {
+      notification.destroy();
+    };
+  }, [isMobile]);
+
   const onChange: TableProps<DataType>["onChange"] = (
     // @ts-ignore
     pagination,
@@ -587,7 +602,11 @@ const App: FC = () => {
               }}
             >
               <div
-                style={{ flexGrow: 1, height: "1px", backgroundColor: "black" }}
+                style={{
+                  flexGrow: 1,
+                  height: "1px",
+                  backgroundColor: "black",
+                }}
               />
               <h1
                 style={{
@@ -600,7 +619,11 @@ const App: FC = () => {
                 My Thesis List
               </h1>
               <div
-                style={{ flexGrow: 1, height: "1px", backgroundColor: "black" }}
+                style={{
+                  flexGrow: 1,
+                  height: "1px",
+                  backgroundColor: "black",
+                }}
               />
             </div>
             <div
@@ -653,7 +676,7 @@ const App: FC = () => {
                               >
                                 <p
                                   style={{
-                                    fontSize: "0.75rem",
+                                    fontSize: isMobile ? "0.6rem" : "0.75rem",
                                     backgroundColor: isGUCian
                                       ? "#F28500"
                                       : "#5DBB63",
@@ -661,7 +684,7 @@ const App: FC = () => {
                                     paddingBlock: "0.25rem",
                                     borderRadius: "0.5rem",
                                     textAlign: "center",
-                                    width: "6rem",
+                                    width: isMobile ? "5rem" : "6rem",
                                     position: "absolute",
                                     bottom: "0.5rem",
                                     color: "white",
@@ -675,10 +698,10 @@ const App: FC = () => {
                                 <p
                                   style={{
                                     position: "absolute",
-                                    fontSize: isMobile ? "2rem" : "3.5rem",
+                                    fontSize: isMobile ? "1.5rem" : "3.5rem",
                                     lineHeight: 1,
                                     top: isMobile ? "0rem" : "1rem",
-                                    left: isMobile ? "-1rem" : "-1rem",
+                                    left: isMobile ? "1rem" : "-1rem",
                                     fontWeight: "bold",
                                     fontStyle: "italic",
                                     transform: "translateX(-100%)",
@@ -692,7 +715,7 @@ const App: FC = () => {
                                   <div>
                                     <p
                                       style={{
-                                        fontSize: "1.25rem",
+                                        fontSize: isMobile ? "1rem" : "1.25rem",
                                         fontWeight: "bold",
                                       }}
                                     >
@@ -709,54 +732,62 @@ const App: FC = () => {
                                       <p
                                         style={{
                                           opacity: 0.5,
+                                          ...(isMobile && {
+                                            fontSize: "0.75rem",
+                                          }),
                                         }}
                                       >
                                         Supervised by: {item.supervisor}
                                       </p>
                                     </div>
                                   </div>
-                                  <div
-                                    style={{
-                                      // width: "fit-content",
-                                      maxWidth: "15rem",
-                                      minWidth: "10rem",
-                                      display: "flex",
-                                      flexDirection: "row",
-                                      gap: "1rem",
-                                      alignItems: "center",
-                                      justifyContent: "end",
-                                    }}
-                                  >
-                                    {link ? (
-                                      <a
-                                        href={`${link}`}
-                                        target="_blank"
-                                        style={{
-                                          color: "#1677FF",
-                                          textDecoration: "none",
-                                        }}
-                                      >
-                                        View Description
-                                      </a>
-                                    ) : (
-                                      <p
-                                        style={{ color: "red", opacity: "0.5" }}
-                                      >
-                                        No Description
-                                      </p>
-                                    )}
-                                    <DeleteOutlined
-                                      onClick={() => {
-                                        const newList = myList.filter(
-                                          (i: any) =>
-                                            i.topic + i.supervisor !==
-                                            item.topic + item.supervisor
-                                        );
-                                        setMyList(newList);
+                                  {!isMobile && (
+                                    <div
+                                      style={{
+                                        // width: "fit-content",
+                                        maxWidth: "15rem",
+                                        minWidth: "10rem",
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        gap: "1rem",
+                                        alignItems: "center",
+                                        justifyContent: "end",
                                       }}
-                                      style={{ color: "red" }}
-                                    />
-                                  </div>
+                                    >
+                                      {link ? (
+                                        <a
+                                          href={`${link}`}
+                                          target="_blank"
+                                          style={{
+                                            color: "#1677FF",
+                                            textDecoration: "none",
+                                          }}
+                                        >
+                                          View Description
+                                        </a>
+                                      ) : (
+                                        <p
+                                          style={{
+                                            color: "red",
+                                            opacity: "0.5",
+                                          }}
+                                        >
+                                          No Description
+                                        </p>
+                                      )}
+                                      <DeleteOutlined
+                                        onClick={() => {
+                                          const newList = myList.filter(
+                                            (i: any) =>
+                                              i.topic + i.supervisor !==
+                                              item.topic + item.supervisor
+                                          );
+                                          setMyList(newList);
+                                        }}
+                                        style={{ color: "red" }}
+                                      />
+                                    </div>
+                                  )}
                                 </div>
                               </li>
                             )}
