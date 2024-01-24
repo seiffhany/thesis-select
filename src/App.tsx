@@ -63,7 +63,6 @@ const App: FC = () => {
   const outsideSupervisors = [
     "Wagdy Anis Aziz",
     "Wael Zakaria Abdallah",
-    "Sherif Saad Mohamed  Ahmed",
     "Mahmoud Ibrahim Khalil",
     "Hossam Eldin Hassan Abdelmunim",
     "Gamal Abdel Shafy",
@@ -300,7 +299,6 @@ const App: FC = () => {
         supervisor: "Milad Michel Ghantous",
         link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_10_26.pdf",
       },
-      // WTF
       {
         supervisor: "Mohamed Hamed Fahmy",
         link: "https://cms.guc.edu.eg/Uploads/61/-104/40002/GUC_-104_61_40002_2024-01-16T16_10_46.pdf",
