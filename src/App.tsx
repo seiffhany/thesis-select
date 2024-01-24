@@ -525,7 +525,7 @@ const App: FC = () => {
                   position: "relative",
                 }}
               >
-                <p
+                {/* <p
                   style={{
                     position: "absolute",
                     left: "-6.5rem",
@@ -533,7 +533,7 @@ const App: FC = () => {
                   }}
                 >
                   Supervisors:
-                </p>
+                </p> */}
                 <div
                   className={`${styles.filterButton} ${
                     supervisorType === "All" && styles.selectedFilter
