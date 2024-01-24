@@ -627,6 +627,9 @@ const App: FC = () => {
                     >
                       {myList.map((item: any, index: any) => {
                         const link = getDescriptionLink(item.supervisor);
+                        const isGUCian = !outsideSupervisors.includes(
+                          item.supervisor
+                        );
                         return (
                           <Draggable
                             key={item.supervisor + item.topic}
@@ -644,9 +647,29 @@ const App: FC = () => {
                                 style={{
                                   userSelect: "none",
                                   position: "relative",
+
                                   ...provided.draggableProps.style,
                                 }}
                               >
+                                <p
+                                  style={{
+                                    fontSize: "0.75rem",
+                                    backgroundColor: isGUCian
+                                      ? "#F28500"
+                                      : "#5DBB63",
+                                    paddingInline: "0.75rem",
+                                    paddingBlock: "0.25rem",
+                                    borderRadius: "0.5rem",
+                                    position: "absolute",
+                                    bottom: "0.5rem",
+                                    color: "white",
+                                    textTransform: "uppercase",
+                                    right: "0",
+                                    opacity: 0.7,
+                                  }}
+                                >
+                                  {isGUCian ? "GUC" : "Ain Shams"}
+                                </p>
                                 <p
                                   style={{
                                     position: "absolute",
@@ -663,70 +686,75 @@ const App: FC = () => {
                                   {index + 1}
                                 </p>
                                 <HolderOutlined />
-                                <div>
-                                  <p
-                                    style={{
-                                      fontSize: "1.25rem",
-                                      fontWeight: "bold",
-                                    }}
-                                  >
-                                    {item.topic}
-                                  </p>
-                                  <div
-                                    style={{
-                                      width: "100%",
-                                      display: "flex",
-                                      justifyContent: "space-between",
-                                      alignItems: "center",
-                                    }}
-                                  >
+                                <div className={`${styles.listItem}`}>
+                                  <div>
                                     <p
                                       style={{
-                                        opacity: 0.5,
+                                        fontSize: "1.25rem",
+                                        fontWeight: "bold",
                                       }}
                                     >
-                                      Supervised by: {item.supervisor}
+                                      {item.topic}
                                     </p>
-                                  </div>
-                                </div>
-                                <div
-                                  style={{
-                                    // width: "fit-content",
-                                    maxWidth: "15rem",
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    gap: "1rem",
-                                    alignItems: "center",
-                                    justifyContent: "end",
-                                  }}
-                                >
-                                  {link ? (
-                                    <a
-                                      href={`${link}`}
-                                      target="_blank"
+                                    <div
                                       style={{
-                                        color: "#1677FF",
-                                        textDecoration: "none",
+                                        width: "100%",
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
                                       }}
                                     >
-                                      View Description
-                                    </a>
-                                  ) : (
-                                    <p style={{ color: "red", opacity: "0.5" }}>
-                                      No Description
-                                    </p>
-                                  )}
-                                  <DeleteOutlined
-                                    onClick={() => {
-                                      const newList = myList.filter(
-                                        (i: any) =>
-                                          i.topic + i.supervisor !==
-                                          item.topic + item.supervisor
-                                      );
-                                      setMyList(newList);
+                                      <p
+                                        style={{
+                                          opacity: 0.5,
+                                        }}
+                                      >
+                                        Supervised by: {item.supervisor}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div
+                                    style={{
+                                      // width: "fit-content",
+                                      maxWidth: "15rem",
+                                      minWidth: "10rem",
+                                      display: "flex",
+                                      flexDirection: "row",
+                                      gap: "1rem",
+                                      alignItems: "center",
+                                      justifyContent: "end",
                                     }}
-                                    style={{ color: "red" }}
-                                  />
+                                  >
+                                    {link ? (
+                                      <a
+                                        href={`${link}`}
+                                        target="_blank"
+                                        style={{
+                                          color: "#1677FF",
+                                          textDecoration: "none",
+                                        }}
+                                      >
+                                        View Description
+                                      </a>
+                                    ) : (
+                                      <p
+                                        style={{ color: "red", opacity: "0.5" }}
+                                      >
+                                        No Description
+                                      </p>
+                                    )}
+                                    <DeleteOutlined
+                                      onClick={() => {
+                                        const newList = myList.filter(
+                                          (i: any) =>
+                                            i.topic + i.supervisor !==
+                                            item.topic + item.supervisor
+                                        );
+                                        setMyList(newList);
+                                      }}
+                                      style={{ color: "red" }}
+                                    />
+                                  </div>
                                 </div>
                               </li>
                             )}

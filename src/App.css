@@ -21,10 +21,10 @@
 .list-items li > div {
   width: 100%;
   min-height: 8rem;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
+  align-items: start; */
   padding: 10px 0;
   border-bottom: 1px solid #ccc;
 }
