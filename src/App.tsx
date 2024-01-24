@@ -660,6 +660,8 @@ const App: FC = () => {
                                     paddingInline: "0.75rem",
                                     paddingBlock: "0.25rem",
                                     borderRadius: "0.5rem",
+                                    textAlign: "center",
+                                    width: "6rem",
                                     position: "absolute",
                                     bottom: "0.5rem",
                                     color: "white",
