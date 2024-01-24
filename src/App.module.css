@@ -1,0 +1,22 @@
+.filterButton {
+  background-color: white;
+  border: none;
+  border: #1677ff 1px solid;
+  color: #1677ff;
+  border-radius: 0.5rem;
+  padding: 5px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition: all 0.2s ease-in-out;
+}
+
+.filterButton:hover {
+  cursor: pointer;
+}
+
+.selectedFilter {
+  background-color: #1677ff;
+  color: white;
+}

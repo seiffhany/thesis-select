@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { InputRef, Table, notification } from "antd";
+import styles from "./App.module.css";
 import type { ColumnsType, TableProps } from "antd/es/table";
 import { thesis } from "./thesis";
 import Highlighter from "react-highlight-words";
@@ -31,6 +32,9 @@ const App: FC = () => {
 
   const storedItems = JSON.parse(localStorage.getItem("items") ?? "[]");
   const [myList, setMyList] = useState<any>(storedItems);
+  const [supervisorType, setSupervisorType] = useState<
+    "All" | "GUC" | "Ain Shams"
+  >("All");
 
   const [supervisorFilter, setSupervisorFilter] = useState<any | null>(null);
   const [topicFilter, setTopicFilter] = useState<string | null>(null);
@@ -56,6 +60,72 @@ const App: FC = () => {
 
   const filteredItems = getFilteredItems();
 
+  const outsideSupervisors = [
+    "Wagdy Anis Aziz",
+    "Wael Zakaria Abdallah",
+    "Sherif Saad Mohamed  Ahmed",
+    "Mahmoud Ibrahim Khalil",
+    "Hossam Eldin Hassan Abdelmunim",
+    "Gamal Abdel Shafy",
+  ];
+
+  const getAllData = () => {
+    return getFilteredItems().map((item, idx) => {
+      const currentTopic = item.content.split(" - ");
+      const supervisor = currentTopic[0];
+      const topicName =
+        currentTopic.length > 2
+          ? currentTopic.slice(1).join(" - ")
+          : currentTopic[1];
+      return {
+        key: idx,
+        id: `topic-${idx + 1}`,
+        supervisor: supervisor,
+        topic: topicName,
+        action: "Add to list",
+      };
+    });
+  };
+
+  const [currData, setCurrData] = useState(getAllData());
+
+  const hasMounted = useRef(false);
+  useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      return;
+    }
+    setCurrData((_) => {
+      const all = getFilteredItems().map((item, idx) => {
+        const currentTopic = item.content.split(" - ");
+        const supervisor = currentTopic[0];
+        const topicName =
+          currentTopic.length > 2
+            ? currentTopic.slice(1).join(" - ")
+            : currentTopic[1];
+        return {
+          key: idx,
+          id: `topic-${idx + 1}`,
+          supervisor: supervisor,
+          topic: topicName,
+          action: "Add to list",
+        };
+      });
+
+      if (supervisorType === "All") {
+        return all;
+      } else if (supervisorType === "GUC") {
+        return all.filter(
+          (item) => !outsideSupervisors.includes(item.supervisor)
+        );
+      } else {
+        return all.filter((item) =>
+          outsideSupervisors.includes(item.supervisor)
+        );
+      }
+    });
+  }, [myList, supervisorType]);
+
   const countSupervisor = (supervisor: string) => {
     const count = filteredItems.filter((item) =>
       item.content.includes(supervisor)
@@ -65,8 +135,12 @@ const App: FC = () => {
 
   const uniqueNames = Array.from(
     new Set(
-      filteredItems.map((item) => {
-        const supervisor = item.content.split(" - ")[0];
+      // filteredItems.map((item) => {
+      //   const supervisor = item.content.split(" - ")[0];
+      //   return `(${countSupervisor(supervisor)}) ` + supervisor;
+      // })
+      currData.map((item) => {
+        const supervisor = item.supervisor;
         return `(${countSupervisor(supervisor)}) ` + supervisor;
       })
     )
@@ -364,22 +438,6 @@ const App: FC = () => {
     localStorage.setItem("items", JSON.stringify(myList));
   }, [myList]);
 
-  const data = filteredItems.map((item, idx) => {
-    const currentTopic = item.content.split(" - ");
-    const supervisor = currentTopic[0];
-    const topicName =
-      currentTopic.length > 2
-        ? currentTopic.slice(1).join(" - ")
-        : currentTopic[1];
-    return {
-      key: idx,
-      id: `topic-${idx + 1}`,
-      supervisor: supervisor,
-      topic: topicName,
-      action: "Add to list",
-    };
-  });
-
   const onChange: TableProps<DataType>["onChange"] = (
     // @ts-ignore
     pagination,
@@ -450,10 +508,68 @@ const App: FC = () => {
                 <p style={{ margin: 0 }}>Made by Seif Hany</p>
               </a>
             </div>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "1rem",
+                  position: "relative",
+                }}
+              >
+                <p
+                  style={{
+                    position: "absolute",
+                    left: "-6.5rem",
+                    opacity: "0.3",
+                  }}
+                >
+                  Supervisors:
+                </p>
+                <div
+                  className={`${styles.filterButton} ${
+                    supervisorType === "All" && styles.selectedFilter
+                  }`}
+                  onClick={() => {
+                    setSupervisorType("All");
+                  }}
+                >
+                  All
+                </div>
+                <div
+                  className={`${styles.filterButton} ${
+                    supervisorType === "GUC" && styles.selectedFilter
+                  }`}
+                  onClick={() => {
+                    setSupervisorType("GUC");
+                  }}
+                >
+                  GUC
+                </div>
+                <div
+                  className={`${styles.filterButton} ${
+                    supervisorType === "Ain Shams" && styles.selectedFilter
+                  }`}
+                  onClick={() => {
+                    setSupervisorType("Ain Shams");
+                  }}
+                >
+                  Ain Shams
+                </div>
+              </div>
+            </div>
             <Table
               style={{ width: "100%" }}
               columns={columns}
-              dataSource={data}
+              dataSource={currData}
               onChange={onChange}
               pagination={{
                 pageSize: 10, // Set the desired number of items per page
